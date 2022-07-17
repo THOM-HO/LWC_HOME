@@ -2,45 +2,41 @@
     <lightning-card>
         <lightning-layout>
             <lightning-layout-item padding="around-small">
-                <lightning-input type="text" label="Tên "></lightning-input>
+                <lightning-input type="text" label="Tên " value={lastName} onchange={handleChangeText}></lightning-input>
             </lightning-layout-item>
             <lightning-layout-item padding="around-small">
-                <!-- <lightning-checkbox-group
-                label="‎" 
-                options={options}
-                value={value}
-                onchange={handleChange}></lightning-checkbox-group> -->
+                <lightning-input type="checkbox" label="Sắp xếp theo tên tăng dần" checked={isCheck} onchange={handleChangeCheckBox}></lightning-input>
             </lightning-layout-item>
         </lightning-layout>
         <lightning-layout>
             <lightning-layout-item padding="around-small">
                 <lightning-combobox
                     name="progress"
-                    label="Status"
+                    label="Lớp"
                     value={value}
-                    placeholder="Select Progress"
-                    options={options}
-                    onchange={handleChange} >
+                    options={listClass}
+                    onchange={handleChangeClass} >
                 </lightning-combobox>
             </lightning-layout-item>
         </lightning-layout>
+        Ngày sinh :
         <lightning-layout>
             <lightning-layout-item padding="around-small">
-             
+                <lightning-input type="date" name="input2" label="Từ" value={startDay} onchange={handleChangeStartDay}/></lightning-input>
             </lightning-layout-item>
             <lightning-layout-item padding="around-small">
-             
+                <lightning-input type="date" name="input2" label="Đến" value={endDay} onchange={handleChangeEndDay}></lightning-input>
             </lightning-layout-item>
         </lightning-layout>
         <lightning-layout>
             <lightning-layout-item padding="around-small">
-             
+                <lightning-button label="Tìm kiếm"  onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
             </lightning-layout-item>
             <lightning-layout-item padding="around-small">
-             
+                <lightning-button label="Thêm mới"  onclick={handleAddStudent} class="slds-m-left_x-small"></lightning-button>
             </lightning-layout-item>
             <lightning-layout-item padding="around-small">
-             
+                <lightning-button label="Xóa tất cả"  onclick={handleDeleteAll} class="slds-m-left_x-small"></lightning-button>
             </lightning-layout-item>
         </lightning-layout>
     </lightning-card>
