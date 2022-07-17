@@ -1,0 +1,162 @@
+<apex:page controller="TimKiemController">
+    <!-- CSS -->
+    <apex:stylesheet value="{!$Resource.TimKiemCSS}" />
+    <apex:form >
+        <apex:pageBlock >
+            <!-- Infor Search -->
+            <apex:pageBlockSection columns="2">
+                <apex:panelGroup >
+                    <apex:outputLabel value="Tên" for="Name" styleClass="label" />
+                    <apex:inputField value="{!cond.objHsCondition.TenHocSinh__c}" />
+                </apex:panelGroup>
+                <apex:panelGroup >
+                    <apex:inputCheckbox value="{!cond.objHsCondition.GioiTinh__c}" />
+                    <apex:outputText value="Sắp xếp tăng dần theo tên" />
+                </apex:panelGroup>
+                <apex:panelGroup >
+                    <apex:outputLabel value="Lớp" for="class" styleClass="label" />
+                    <apex:selectList multiselect="false" size="1" value="{!cond.lopId}">
+                        <apex:selectOptions value="{!options}" />
+                    </apex:selectList>
+                </apex:panelGroup>
+                <apex:panelGroup ></apex:panelGroup>
+                <apex:panelGroup >
+                    <apex:outputLabel value="Ngày sinh" for="day" styleClass="label" />
+                    <apex:inputField value="{!cond.objHsCondition.NgaySinh__c}" id="firstDay" onfocus="DatePicker.pickDate(false, this , false);"
+                    />
+                    <apex:outputLabel value="      ~    " for="day" />
+                    <apex:inputField value="{!cond.objHsCondition1.NgaySinh__c}" id="endDay" />
+                </apex:panelGroup>
+                <apex:panelGroup ></apex:panelGroup>
+            </apex:pageBlockSection>
+            <!-- Group Button -->
+            <apex:pageBlockSection columns="1">
+                <apex:panelGroup styleClass="buttons">
+                    <apex:commandButton value="Tìm kiếm" action="{!searchStudent}" />
+                    <apex:commandButton value="Thêm mới" action="{!addStudent}" />
+                    <apex:commandButton value="Xóa" onclick="afDeleteCheck(); return false;" />
+                </apex:panelGroup>
+            </apex:pageBlockSection>
+            <!-- List Sudent -->
+            <apex:pageBlockSection columns="1">
+                <apex:panelGroup id="count">
+                    <apex:outputText value="Số lượng {!count}" styleClass="count" />
+                </apex:panelGroup>
+                <apex:panelGroup id="tbHocsinh">
+                    <apex:pageBlockTable value="{!lvStudents}" var="record">
+                        <apex:column styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:facet name="header">
+                                <apex:inputCheckbox value="{!cond.objHsCondition1.GioiTinh__c}" onclick="afIsCheckAll(); return false;" />
+                            </apex:facet>
+                            <apex:inputCheckbox value="{!record.check}" />
+                        </apex:column>
+
+                        <apex:column headerValue="Họ" styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:outputText value="{!record.objHocSinh.HoHocSinh__c}" />
+                        </apex:column>
+
+                        <apex:column headerValue="Tên" styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:commandLink value="{!record.objHocSinh.TenHocSinh__c}" onclick="jsDetail('{!record.objHocSinh.Id}'); return false;"
+                            />
+                        </apex:column>
+
+                        <apex:column headerValue="Ngày Sinh" styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:outputText value="{0,date,dd-MM-yyyy}">
+                                <apex:param value="{!record.objHocSinh.NgaySinh__c}" />
+                            </apex:outputText>
+                        </apex:column>
+
+                        <apex:column headerValue="Giới tính" styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:outputText value="{!IF(record.objHocSinh.GioiTinh__c,'Nam','Nữ')}" />
+                        </apex:column>
+
+                        <apex:column headerValue="Điểm 1" styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:outputText value="{!record.objHocSinh.Diem1__c}" />
+                        </apex:column>
+
+                        <apex:column headerValue="Điểm 2" styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:outputText value="{!record.objHocSinh.Diem2__c}" />
+                        </apex:column>
+
+                        <apex:column headerValue="Điểm 3" styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:outputText value="{!record.objHocSinh.Diem3__c}" />
+                        </apex:column>
+
+                        <apex:column headerValue="Điểm TB" styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:outputText value="{!record.objHocSinh.DiemTB__c}" />
+                        </apex:column>
+
+                        <apex:column headerValue="Tình Trạng" styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:outputText value="{!record.objHocSinh.TinhTrang__c}" />
+                        </apex:column>
+
+                        <apex:column headerValue="" styleClass="row {!IF(record.objHocSinh.DiemTB__c < 5, 'danger', '')}">
+                            <apex:commandLink value="Cập nhật" onclick="jsUpdate('{!record.objHocSinh.Id}'); return false;" /> |
+                            <apex:commandLink value=" Xóa" onclick="jsDelete('{!record.objHocSinh.Id}'); return false;" />
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:panelGroup>
+                <apex:panelGroup >
+                    <apex:outputLabel value="Không có dòng nào thỏa điều kiện" rendered="{!IF( count = 0 && isNotification = false,true,false)}"
+                        style="color:red" />
+                    <apex:outputLabel value="Chưa nhập điều kiện tìm kiếm" rendered="{!isNotification}" style="color:red" />
+                </apex:panelGroup>
+            </apex:pageBlockSection>
+            <!-- Pagination -->
+            <apex:pageBlockSection columns="1">
+                <apex:panelGroup styleClass="pagination" id="pagination" rendered="{!IF(count >0,true,false)}">
+                    <apex:commandButton value="Trang đầu" action="{!firstPage}" />
+                    <apex:commandButton value="<" rendered="{!currentPage >=2}" action="{!prevPage}" />
+                    <apex:repeat value="{!listPage}" var="page">
+                        <apex:variable var="index" value="{!page}" />
+                        <apex:commandButton value="{!page}" styleClass="{!IF(page==currentPage,'active','')}" onclick="afSetPage('{!index}'); return false;"
+                        />
+                    </apex:repeat>
+                    <apex:commandButton value=">" action="{!nextPage}" rendered="{!currentPage != totalPage}" />
+                    <apex:commandButton value="Trang cuối" action="{!lastPage}" />
+                </apex:panelGroup>
+            </apex:pageBlockSection>
+            <!-- ACTION FUNCTION -->
+            <apex:actionFunction name="afDetail" status="Waitting" action="{!goDetail}" onComplete="console.log('Done')" reRender="msgId, pbsOrderField, refreshJs">
+                <apex:param name="index" value="" />
+            </apex:actionFunction>
+            <apex:actionFunction name="afUpdate" status="Waitting" action="{!updateStudent}" onComplete="console.log('Done')" reRender="msgId, pbsOrderField, refreshJs">
+                <apex:param name="index" value="" />
+            </apex:actionFunction>
+            <apex:actionFunction name="afDelete" status="Waitting" action="{!deleteStudent}" onComplete="console.log('Done')" reRender="tbHocsinh, pagination, count">
+                <apex:param name="index" value="" />
+            </apex:actionFunction>
+            <apex:actionFunction name="afSetPage" status="Waitting" action="{!setPage}" onComplete="console.log('Done')" reRender="tbHocsinh, pagination">
+                <apex:param name="index" value="" />
+            </apex:actionFunction>
+
+            <apex:actionFunction name="afDeleteCheck" status="Waitting" action="{!deleteCheck}" onComplete="console.log('Done')" reRender="tbHocsinh,count,pagination">
+            </apex:actionFunction>
+
+            <apex:actionFunction name="afIsCheckAll" status="Waitting" action="{!checkAll}" onComplete="console.log('Done')" reRender="tbHocsinh">
+            </apex:actionFunction>
+        </apex:pageBlock>
+    </apex:form>
+    <!-- FIXED JAVASCRIPT -->
+    <script type="text/javascript">
+        var $j = jQuery.noConflict();
+
+    </script>
+    <!-- DYNAMIC VARIABLE JAVASCRIPT -->
+    <apex:outputPanel id="refreshJs" layout="block">
+        <script type="text/javascript">
+            function jsDetail(index) {
+                afDetail(index);
+            }
+            function jsUpdate(index) {
+                afUpdate(index);
+            }
+            function jsDelete(index) {
+                var isDelete = window.confirm("Bạn có muốn xóa không?");
+                if (isDelete) {
+                    afDelete(index);
+                }
+            }
+        </script>
+    </apex:outputPanel>
+</apex:page>

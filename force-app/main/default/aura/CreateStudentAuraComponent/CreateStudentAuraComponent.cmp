@@ -1,0 +1,13 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+access="global"
+controller="SearchComController">
+<aura:attribute name="fields" type="String[]" default="['HoHocSinh__c','TenHocSinh__c','GioiTinh__c','NgaySinh__c','Diem1__c','Diem2__c','Diem3__c','Lop__c']" />
+<aura:attribute name="recordId" type="String"/>
+<lightning:card title="Create Student">
+            <lightning:notificationsLibrary aura:id="notifLib"/>
+            <lightning:recordForm
+                    objectApiName="HocSinh__c"
+                    fields="{!v.fields}"
+                    onsuccess="{!c.handleSuccess}" />
+</lightning:card>
+</aura:component>

@@ -1,0 +1,21 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+access="global"
+controller="SearchComController">
+<lightning:card title="Update Student">
+<lightning:recordEditForm objectApiName="HocSinh__c" recordId="a045i000003jNzCAAU">
+        <lightning:messages />
+        <lightning:inputField aura:id="field" fieldName="HoHocSinh__c" />
+        <lightning:inputField aura:id="field" fieldName="TenHocSinh__c" />
+        <lightning:inputField aura:id="field" fieldName="GioiTinh__c" />
+        <lightning:inputField aura:id="field" fieldName="NgaySinh__c" />
+        <lightning:inputField aura:id="field" fieldName="Diem1__c" />
+        <lightning:inputField aura:id="field" fieldName="Diem2__c" />
+        <lightning:inputField aura:id="field" fieldName="Diem3__c" />
+
+            <div class="slds-m-top_medium">
+            <lightning:button label="Cancel" onclick="{!c.handleReset}" />
+            <lightning:button type="submit" label="Cập nhật" />
+        </div>
+    </lightning:recordEditForm>
+</lightning:card>
+</aura:component>

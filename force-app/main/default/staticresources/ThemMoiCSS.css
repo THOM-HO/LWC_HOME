@@ -1,0 +1,23 @@
+.wrap{
+    border:1px solid;  
+    padding:40px;
+    border-radius:8px;
+}
+.form{
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:start;
+    flex-direction:column;
+}
+.label{
+    display:inline-block;
+    width: 80px;
+    text-align: right;
+    padding-right:10px;
+}
+.center{
+    display:block;
+    text-align: center;
+}
+

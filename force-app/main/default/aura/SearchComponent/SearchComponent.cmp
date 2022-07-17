@@ -1,0 +1,94 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+access="global"
+controller="SearchComController">
+    <!-- attributes -->
+    <aura:attribute name="students" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="name" type="String" default=""/>
+    <aura:attribute name="isSort" type="Boolean" default="false"/>
+    <aura:attribute name="class" type="String" default=""/>
+    <aura:attribute name="startBirthday" type="Date" />
+    <aura:attribute name="endBirthday" type="Date" />
+    <aura:attribute name="listClass" type="List"/>
+    <aura:attribute name="countStudent" type="Integer"/>
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer"/>
+    <aura:attribute name="totalSize" type="Integer"/>
+    <aura:attribute name="paginationList" type="List"/>
+
+    <!-- handlers-->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <aura:handler name="reload_evt" event="c:student_reload_evt" action="{!c.handleReloadEvent}"/>
+    
+     <!-- Section 1: Vùng điều kiện search -->
+    <lightning:card >
+        <div class="container">
+            <lightning:input name="input1" value="{!v.name}" label="Tên :" />
+            <ui:inputCheckbox label="Sắp xếp tăng dần theo tên :" value="{!v.isSort}"/>
+
+            <lightning:select name="classId" label="Lớp" aura:id="classId" value="{!v.class}">
+                <option text="Tất cả" value="SELECT_ALL" />
+                <aura:iteration items="{!v.listClass}" var="option">
+                    <option text="{!option.TenLop__c}" value="{!option.Id}"/>
+                </aura:iteration>
+            </lightning:select>
+            <span />
+            <lightning:input type="date" name="input2" label="Ngày sinh" value="{!v.startBirthday}"/>
+            <lightning:input type="date" name="input3" label="‎" value="{!v.endBirthday}"/>
+        </div>
+        <div class="groupButton">       
+            <lightning:button onclick="{!c.search}"
+                              label="Search"
+                              iconName="utility:search"
+                              iconPosition="left"
+                              variant="neutral"
+                              type="submit"/>
+            
+            <lightning:button onclick="{!c.newStudent}"
+                              label="New"
+                              iconName="utility:new"
+                              iconPosition="left"
+                              variant="neutral"
+                              class="slds-size_4-of-10"
+                              type="submit"/>
+
+            <lightning:button onclick="{!c.deleteAll}"
+                              label="Xóa"
+                              iconName="utility:delete"
+                              iconPosition="left"
+                              variant="neutral"
+                              class="slds-size_4-of-10"
+                              type="submit"/>
+            
+        </div>
+    </lightning:card>
+
+    <!-- Section 2: Hiển thị kết quả tìm kiếm và phân trang-->
+    <lightning:card >
+        <h4 class="count">
+            Số lượng : <ui:outputText value="{!v.countStudent}"/>
+        </h4>
+            <lightning:datatable
+            columns="{! v.columns }"
+            data="{! v.students }"
+            keyField="id"
+            onrowaction="{! c.handleRowAction }"/>
+        
+        <lightning:card class="groupButton">
+            <lightning:button label="Trang đầu" disabled="{!v.start == 0}"  onclick="{!c.first}" />
+            <lightning:button label="Trang trước" disabled="{!v.start == 0}"  onclick="{!c.previous}" />
+            <aura:iteration items="{!v.paginationList}" var="item">
+                <lightning:button label="{!item}"  onclick="{!c.getPage}" />
+            </aura:iteration>
+            <lightning:button label="Trang sau" disabled="{!v.end >= v.totalSize}" onclick="{!c.next}" />
+            <lightning:button label="Trang cuối" disabled="{!v.end >= v.totalSize}" onclick="{!c.last}" />
+        </lightning:card>
+    </lightning:card>
+
+    <!-- Section 3: Modal -->
+    <c:CreateModalCustom aura:id="create_student_modal" />
+    <c:EditModalCustom aura:id="edit_student_modal" />
+    <c:DeleteModalCustom aura:id="confirm_delete_modal" />
+    <c:DetailModalCustom aura:id="detail_student_modal" />
+    
+</aura:component>

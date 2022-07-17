@@ -1,0 +1,20 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+access="global">
+<lightning:card title="Detail Student">
+    <lightning:recordViewForm recordId="a045i000003jNzCAAU" objectApiName="HocSinh__c">
+        <!-- <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="HocSinh__c"> -->
+
+        <lightning:outputField fieldName="HoHocSinh__c"/>
+        <lightning:outputField fieldName="TenHocSinh__c"/>
+        <lightning:outputField fieldName="GioiTinh__c"/>
+        <lightning:outputField fieldName="NgaySinh__c" />
+        <lightning:outputField fieldName="Diem1__c" />
+        <lightning:outputField fieldName="Diem2__c" />
+        <lightning:outputField fieldName="Diem3__c" />
+        <lightning:outputField fieldName="DiemTB__C" />
+        <lightning:outputField fieldName="TinhTrang__c" />
+        <lightning:button label="Cập nhật" onclick="{! c.handleUpdate }"/>
+        <lightning:button label="Xóa" onclick="{! c.handleUpdate }"/>
+    </lightning:recordViewForm>
+</lightning:card>
+</aura:component>

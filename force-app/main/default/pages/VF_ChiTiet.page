@@ -1,0 +1,62 @@
+<apex:page controller="ChiTietController">
+    <!-- CSS -->
+    <apex:stylesheet value="{!$Resource.ChiTietCSS}" />
+    <!-- PAGE CONTENT -->
+    <apex:form styleClass="form">
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1">
+                <apex:panelGrid cellspacing="5" styleClass="wrap" columns="4" cellpadding="4" width="400vw">
+                    <apex:commandLink action="{!back}" value="Quay lại" styleClass="theButton" />
+                    <apex:outputLabel />
+                    <apex:outputLabel />
+                    <apex:outputLabel />
+
+                    <apex:outputLabel />
+                    <apex:outputLabel value="Họ" for="firstName" />
+                    <apex:outputText value="{!cond.objHsCondition.HoHocSinh__c}" id="firstName" />
+                    <apex:outputLabel />
+
+                    <apex:outputLabel />
+                    <apex:outputLabel value="Tên" for="lastName" />
+                    <apex:outputText value="{!cond.objHsCondition.TenHocSinh__c}" id="lastName" />
+                    <apex:outputLabel />
+
+                    <apex:outputLabel />
+                    <apex:outputLabel value="Giới tính" for="gender" />
+                    <apex:outputText value="{! IF(cond.objHsCondition.GioiTinh__c, 'Nam', 'Nữ' ) }" id="gender" />
+                    <apex:outputLabel />
+
+                    <apex:outputLabel />
+                    <apex:outputLabel value="Ngày sinh" for="birthday" />
+                    <apex:outputText value="{0,date,dd-MM-yyyy}" styleClass="textRight">
+                        <apex:param value="{!cond.objHsCondition.NgaySinh__c}" />
+                    </apex:outputText>
+                    <apex:outputLabel />
+
+                    <apex:outputLabel />
+                    <apex:outputLabel value="Điểm 1" for="score1" />
+                    <apex:outputText value="{!cond.objHsCondition.Diem1__c}" id="score1" styleClass="textRight" />
+                    <apex:outputLabel />
+
+                    <apex:outputLabel />
+                    <apex:outputLabel value="Điểm 2" for="score2" />
+                    <apex:outputText value="{!cond.objHsCondition.Diem2__c}" id="score2" styleClass="textRight" />
+                    <apex:outputLabel />
+
+                    <apex:outputLabel />
+                    <apex:outputLabel value="Điểm 3" for="score3" />
+                    <apex:outputText value="{!cond.objHsCondition.Diem3__c}" id="score3" styleClass="textRight" />
+                    <apex:outputLabel />
+
+                    <apex:outputLabel />
+                    <apex:outputLabel />
+                    <apex:commandButton action="{!updateStudent}" value="Cập nhật" />
+                    <apex:commandButton action="{!deleteStudent}" value="Xóa" />
+
+
+                </apex:panelGrid>
+
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,38 @@
+<apex:page controller="CapNhatController">
+    <!-- CSS -->
+    <apex:stylesheet value="{!$Resource.ThemMoiCSS}" />
+    <!-- PAGE CONTENT -->
+    <apex:form styleClass="form">
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1">
+                <apex:panelGrid columns="2" cellspacing="10px">
+
+                    <apex:commandLink action="{!back}" value="Quay lại" styleClass="theButton" />
+                    <div/>
+                    <apex:outputLabel value="Họ" for="firstName" />
+                    <apex:inputField value="{!cond.objHsCondition.HoHocSinh__c}" id="firstName" />
+
+                    <apex:outputLabel value="Tên" for="lastName" />
+                    <apex:inputField value="{!cond.objHsCondition.TenHocSinh__c}" id="lastName" />
+
+                    <apex:outputLabel value="Ngày sinh" for="birthday" />
+                    <apex:inputField value="{!cond.objHsCondition.NgaySinh__c}" id="birthday" />
+
+                    <apex:outputLabel value="Giới tính" for="gender" />
+                    <apex:inputField value="{!cond.objHsCondition.GioiTinh__c}" id="gender" />
+
+                    <apex:outputLabel value="Điểm 1" for="score1" />
+                    <apex:inputField value="{!cond.objHsCondition.Diem1__c}" id="score1" />
+
+                    <apex:outputLabel value="Điểm 2" for="score2" />
+                    <apex:inputField value="{!cond.objHsCondition.Diem2__c}" id="score2" />
+
+                    <apex:outputLabel value="Điểm 3" for="score3" />
+                    <apex:inputField value="{!cond.objHsCondition.Diem3__c}" id="score3" />
+                    <div></div>
+                    <apex:commandButton action="{!updateStudent}" value="Cập nhật" />
+                </apex:panelGrid>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

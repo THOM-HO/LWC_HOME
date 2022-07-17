@@ -1,0 +1,59 @@
+<apex:page controller="ThemMoiController">
+    <!-- CSS -->
+    <apex:stylesheet value="{!$Resource.ThemMoiCSS}" />
+    <!-- PAGE CONTENT -->
+    <apex:form styleClass="form">
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1">
+
+                <apex:commandLink action="{!back}" value="Quay lại" styleClass="theButton" />
+                <apex:panelGroup >
+                    <apex:outputLabel value="Họ" for="firstName" styleClass="label" />
+                    <apex:inputField value="{!cond.objHsCondition.HoHocSinh__c}" id="firstName" />
+                </apex:panelGroup>
+
+                <apex:panelGroup >
+                    <apex:outputLabel value="Tên" for="lastName" styleClass="label" />
+                    <apex:inputField value="{!cond.objHsCondition.TenHocSinh__c}" id="lastName" />
+                </apex:panelGroup>
+
+                <apex:panelGroup >
+                    <apex:outputLabel value="Ngày sinh" for="birthday" styleClass="label" />
+                    <apex:inputField value="{!cond.objHsCondition.NgaySinh__c}" id="birthday" />
+                </apex:panelGroup>
+
+                <apex:panelGroup >
+                    <apex:outputLabel value="Giới tính" for="gender" styleClass="label" />
+                    <apex:inputField value="{!cond.objHsCondition.GioiTinh__c}" id="gender" />
+                </apex:panelGroup>
+
+                <apex:panelGroup >
+                    <apex:outputLabel value="Điểm 1" for="score1" styleClass="label" />
+                    <apex:inputField value="{!cond.objHsCondition.Diem1__c}" id="score1" />
+                </apex:panelGroup>
+
+                <apex:panelGroup >
+                    <apex:outputLabel value="Điểm 2" for="score2" styleClass="label" />
+                    <apex:inputField value="{!cond.objHsCondition.Diem2__c}" id="score2" />
+                </apex:panelGroup>
+
+                <apex:panelGroup >
+                    <apex:outputLabel value="Điểm 3" for="score3" styleClass="label" />
+                    <apex:inputField value="{!cond.objHsCondition.Diem3__c}" id="score3" />
+                </apex:panelGroup>
+
+                <apex:panelGroup >
+                    <apex:outputLabel value="Lớp" for="class" styleClass="label" />
+                    <apex:selectList multiselect="false" size="1" value="{!cond.lopId}">
+                        <apex:selectOptions value="{!options}" />
+                    </apex:selectList>
+                </apex:panelGroup>
+
+                <apex:panelGroup styleClass="center">
+                    <apex:commandButton action="{!addStudent}" value="Thêm mới" />
+                </apex:panelGroup>
+
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
