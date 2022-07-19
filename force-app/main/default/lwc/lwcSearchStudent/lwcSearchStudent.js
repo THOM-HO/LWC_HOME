@@ -1,4 +1,4 @@
-import { LightningElement, track, api, wire} from 'lwc';
+import { LightningElement, api, wire} from 'lwc';
 import getListClass from '@salesforce/apex/lwcSearchStudentController.getListClass';
 import getListStudent from '@salesforce/apex/lwcSearchStudentController.getListStudent';
 
@@ -9,9 +9,22 @@ export default class LwcSearchStudent extends LightningElement {
     @api startDay = '';
     @api endDay = '' ;
 
-    @track listClass;   
-    @track listStudent;   
-    @track error; 
+    @api listClass;   
+    @api listStudent;   
+    @api error;
+    
+    cols= [
+        {label:'Họ' , fieldName:'HoHocSinh__c' , type:'text'},
+        {label:'Tên' , fieldName:'TenHocSinh__c' , type:'text'},
+        {label:'Giới tính' , fieldName:'GioiTinh__c' , type:'text'},
+        {label:'Ngày sinh' , fieldName:'NgaySinh__c' , type:'text'},
+        {label:'Điểm 1' , fieldName:'Diem1__c' , type:'text'},
+        {label:'Điểm 2' , fieldName:'Diem2__c' , type:'text'},
+        {label:'Điểm 3' , fieldName:'Diem3__c' , type:'text'},
+        {label:'Điểm TB' , fieldName:'DiemTB__c' , type:'text'},
+        {label:'Tình trạng' , fieldName:'TinhTrang__c' , type:'text'},
+
+    ] 
 
     @wire(getListClass) wiredListClass({ error, data }) {
         if (data) {
@@ -29,6 +42,9 @@ export default class LwcSearchStudent extends LightningElement {
     @wire(getListStudent,{lastName: '$lastName', isCheck: '$isCheck',IdClass: '$value',startDay: '$startDay', endDay:'$endDay'}) wiredListStudent({ error, data }) {
         if (data) {
             this.listStudent = data;
+            this.listStudent = this.listStudent.map(item => {
+                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
+            });
         } else if (error) { 
            this.error = error;  
         }
@@ -58,7 +74,7 @@ export default class LwcSearchStudent extends LightningElement {
         getListStudent({lastName: '$lastName', isCheck: '$isCheck',IdClass: '$value',startDay: '$startDay', endDay:'$endDay'})
         .then(result =>{
             this.listStudent = result ;
-            console.log(result);
+            console.log(JSON.stringify(result));
         })
         .catch(err=>{
             this.listStudent= null;

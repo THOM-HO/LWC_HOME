@@ -40,7 +40,14 @@
             </lightning-layout-item>
         </lightning-layout>
     </lightning-card>
-    <lightning-card>
-       
-    </lightning-card>
+    <div style="margin-top: 20px;">
+        <lightning-card>
+            <lightning-layout>
+                    <lightning-datatable key-field="Id" data={listStudent} columns={cols} style="height:250px;"></lightning-datatable>
+            </lightning-layout>
+            <lightning-layout>
+
+            </lightning-layout>
+        </lightning-card>
+    </div> 
 </template>
