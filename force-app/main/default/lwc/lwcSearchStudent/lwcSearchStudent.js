@@ -10,20 +10,58 @@ const actions = [
 ];
 
 const cols= [
-    {label:'Họ' , fieldName:'HoHocSinh__c' , type:'text'},
-    {label:'Tên' , fieldName:'TenHocSinh__c' , type:'text'},
-    {label:'Giới tính' , fieldName:'GioiTinh__c' , type:'text'},
-    {label:'Ngày sinh' , fieldName:'NgaySinh__c' , type:'text'},
-    {label:'Điểm 1' , fieldName:'Diem1__c' , type:'text'},
-    {label:'Điểm 2' , fieldName:'Diem2__c' , type:'text'},
-    {label:'Điểm 3' , fieldName:'Diem3__c' , type:'text'},
-    {label:'Điểm TB' , fieldName:'DiemTB__c' , type:'text'},
-    {label:'Tình trạng' , fieldName:'TinhTrang__c' , type:'text'},
-    {
-        type: 'action',
-        typeAttributes: { rowActions: actions },
-    },
+    {label : 'Họ', fieldName : 'HoHocSinh__c', type : 'text' , "cellAttributes" : {
+        "class" : {
+            "fieldName" : "showClass"
+        }
+    }},
+    {label : 'Tên', fieldName : 'TenHocSinh__c', type : 'text', "cellAttributes" : {
+        "class" : {
+            "fieldName" : "showClass"
+        }
+    }},
+    {label : 'Giới tính', fieldName : 'GioiTinh__c', type : 'text' , "cellAttributes" : {
+        "class" : {
+            "fieldName": "showClass"
+        }
+    }},
+    {label : 'Ngày Sinh', fieldName : 'NgaySinh__c', type : 'date', "cellAttributes" : {
+        "class" : {
+            "fieldName": "showClass"
+        }
+    }},
+    {label : 'Điểm 1', fieldName : 'Diem1__c', type : 'Number' , "cellAttributes" : {
+        "class" : {
+            "fieldName": "showClass"
+        }
+    }},
+    {label : 'Điểm 2', fieldName : 'Diem2__c', type : 'Number', "cellAttributes" : {
+        "class" : {
+            "fieldName": "showClass"
+        }
+    }},
+    {label : 'Điểm 3', fieldName : 'Diem3__c', type : 'Number' , "cellAttributes" : {
+        "class" : {
+            "fieldName": "showClass"
+        }
+    }},
+    {label : 'Điểm TB', fieldName : 'DiemTB__c', type : 'Number' , "cellAttributes" : {
+        "class" : {
+            "fieldName": "showClass"
+        }
+    }},
+    {label : 'Tình trạng', fieldName : 'TinhTrang__c', type : 'text', "cellAttributes" : {
+        "class" : {
+            "fieldName": "showClass"
+        }
+    }},
+    {type : 'action', typeAttributes : { rowActions: actions } , "cellAttributes" : {
+        "class": {
+            "fieldName": "showClass"
+        }
+    }}
 ]
+
 
 
 export default class LwcSearchStudent extends LightningElement {
@@ -73,7 +111,8 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
+                let showClass = item.DiemTB__c < 5 ? "slds-color__background_gray-7":"";
+                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -103,6 +142,7 @@ export default class LwcSearchStudent extends LightningElement {
         }
             }
         });
+
     }
 
     // @wire(getCountStudent,{lastName: '$lastName', isCheck: '$isCheck',idClass: '$value',startDay: '$startDay', endDay:'$endDay'})getCountStudent({error,data}){
@@ -134,7 +174,7 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -245,7 +285,7 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -275,7 +315,7 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -305,7 +345,7 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -335,7 +375,7 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })

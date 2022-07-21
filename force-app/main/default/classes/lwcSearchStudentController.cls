@@ -101,10 +101,8 @@ public static Integer getCountStudent(String lastName, String idClass,String sta
 @AuraEnabled
     public static void deleteAllStudent(List<String> listDelete){
         try{
-            System.debug(listDelete);
             List<HocSinh__c> students = [SELECT Id FROM HocSinh__c WHERE Id IN: listDelete];
             System.debug(students);
-            delete students;
         }catch( Exception ex){
             throw new AuraHandledException(ex.getMessage());
         }
