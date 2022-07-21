@@ -2,6 +2,8 @@ import { LightningElement, api, wire} from 'lwc';
 import getListClass from '@salesforce/apex/lwcSearchStudentController.getListClass';
 import getListStudent from '@salesforce/apex/lwcSearchStudentController.getListStudent';
 import getCountStudent from '@salesforce/apex/lwcSearchStudentController.getCountStudent';
+import {loadStyle} from 'lightning/platformResourceLoader'
+import COLORS from '@salesforce/resourceUrl/colors'
 
 const actions = [
     { label: 'Show details', name: 'show_details' },
@@ -9,60 +11,18 @@ const actions = [
     { label: 'Update', name: 'update' },
 ];
 
-const cols= [
-    {label : 'Họ', fieldName : 'HoHocSinh__c', type : 'text' , "cellAttributes" : {
-        "class" : {
-            "fieldName" : "showClass"
-        }
-    }},
-    {label : 'Tên', fieldName : 'TenHocSinh__c', type : 'text', "cellAttributes" : {
-        "class" : {
-            "fieldName" : "showClass"
-        }
-    }},
-    {label : 'Giới tính', fieldName : 'GioiTinh__c', type : 'text' , "cellAttributes" : {
-        "class" : {
-            "fieldName": "showClass"
-        }
-    }},
-    {label : 'Ngày Sinh', fieldName : 'NgaySinh__c', type : 'date', "cellAttributes" : {
-        "class" : {
-            "fieldName": "showClass"
-        }
-    }},
-    {label : 'Điểm 1', fieldName : 'Diem1__c', type : 'Number' , "cellAttributes" : {
-        "class" : {
-            "fieldName": "showClass"
-        }
-    }},
-    {label : 'Điểm 2', fieldName : 'Diem2__c', type : 'Number', "cellAttributes" : {
-        "class" : {
-            "fieldName": "showClass"
-        }
-    }},
-    {label : 'Điểm 3', fieldName : 'Diem3__c', type : 'Number' , "cellAttributes" : {
-        "class" : {
-            "fieldName": "showClass"
-        }
-    }},
-    {label : 'Điểm TB', fieldName : 'DiemTB__c', type : 'Number' , "cellAttributes" : {
-        "class" : {
-            "fieldName": "showClass"
-        }
-    }},
-    {label : 'Tình trạng', fieldName : 'TinhTrang__c', type : 'text', "cellAttributes" : {
-        "class" : {
-            "fieldName": "showClass"
-        }
-    }},
-    {type : 'action', typeAttributes : { rowActions: actions } , "cellAttributes" : {
-        "class": {
-            "fieldName": "showClass"
-        }
-    }}
+const cols = [
+    {label : 'Họ', fieldName : 'HoHocSinh__c', type : 'text',"cellAttributes" : { "class" : { "fieldName" : "showClass" }}},
+    {label : 'Tên', fieldName : 'TenHocSinh__c', type : 'text', "cellAttributes" : {"class" : { "fieldName" : "showClass" }}},
+    {label : 'Giới tính', fieldName : 'GioiTinh__c', type : 'text' , "cellAttributes" : {"class" : {"fieldName": "showClass" }}},
+    {label : 'Ngày Sinh', fieldName : 'NgaySinh__c', type : 'date', "cellAttributes" : {"class" : {"fieldName" : "showClass" }}},
+    {label : 'Điểm 1', fieldName : 'Diem1__c', type : 'Number' , "cellAttributes" : {"class" : {"fieldName" : "showClass" }}},
+    {label : 'Điểm 2', fieldName : 'Diem2__c', type : 'Number', "cellAttributes" : {"class" : {"fieldName" : "showClass" }}},
+    {label : 'Điểm 3', fieldName : 'Diem3__c', type : 'Number' , "cellAttributes" : {"class" : {"fieldName" : "showClass" }}},
+    {label : 'Điểm TB', fieldName : 'DiemTB__c', type : 'Number' , "cellAttributes" : {"class" : {"fieldName" : "showClass" }}},
+    {label : 'Tình trạng', fieldName : 'TinhTrang__c', type : 'text', "cellAttributes" : {"class" : {"fieldName" : "showClass" }}},
+    {type : 'action', typeAttributes : { rowActions: actions } , "cellAttributes" : { "class": {"fieldName": "showClass" }}}
 ]
-
-
 
 export default class LwcSearchStudent extends LightningElement {
     @api lastName= '';
@@ -80,7 +40,6 @@ export default class LwcSearchStudent extends LightningElement {
     @api LIMIT_RECORD = 5;
     @api totalPage = 0;
     @api flagPagination = false;
-    // listPage = [1,2,3,4,5];
 
     @api isFirstPage = false;
     @api isPreviousPage = false;
@@ -88,66 +47,27 @@ export default class LwcSearchStudent extends LightningElement {
     @api isLastPage = false;
 
     @api recordId ;
+    @api selectedListId = [];
     
     cols = cols;
-    @api selectedListId = [];
-
+    isCssLoaded = false
 
     @wire(getListClass) wiredListClass({ error, data }) {
         if (data) {
-        this.listClass = data; 
-        var listViewData = [{"label":'Tất cả', "value":''}];
-        for(var i=0; i<this.listClass.length; i++){
-            listViewData.push({"label" : this.listClass[i].TenLop__c, "value" : this.listClass[i].Id});
-        }
-        this.listClass = listViewData;
-        
+            this.listClass = data; 
+            var listViewData = [{"label":'Tất cả', "value":''}];
+            for(var i=0; i<this.listClass.length; i++){
+                listViewData.push({"label" : this.listClass[i].TenLop__c, "value" : this.listClass[i].Id});
+            }
+            this.listClass = listViewData;
         } else if (error) { 
            this.error = error;  
         }
     }
     connectedCallback(){
-        getListStudent({lastName: this.lastName, isCheck: this.isCheck, idClass:this.value, startDay: this.startDay, endDay:this.endDay, limitRecord:this.LIMIT_RECORD, currentPage:this.currentPage})
-        .then(result =>{
-            this.listStudent = result;
-            this.listStudent = this.listStudent.map(item => {
-                let showClass = item.DiemTB__c < 5 ? "slds-color__background_gray-7":"";
-                return (item.GioiTinh__c == true ? {...item, "showClass":showClass, GioiTinh__c: 'Nam'} : {...item, "showClass":showClass, GioiTinh__c: 'Nữ'})
-            });
-            // console.log(JSON.stringify(this.listStudent));
-        })
-        .catch(err=>{
-            this.listStudent= null;
-        });
-
-        getCountStudent({lastName: this.lastName, idClass: this.value, startDay: this.startDay, endDay: this.endDay})
-        .then(result =>{
-            this.countStudent = result;
-            if(this.countStudent !== 0){
-                this.flagPagination = true;
-                this.totalPage = Math.ceil(this.countStudent / this.LIMIT_RECORD);
-                    if(this.currentPage == 1){
-            this.isFirstPage = true;
-            this.isPreviousPage = true;
-        }else{
-            this.isFirstPage = false;
-            this.isPreviousPage = false; 
-        }
-        if(this.currentPage == this.totalPage){
-            this.isNextPage = true;
-            this.isLastPage = true;
-        }else{
-            this.isNextPage = false;
-            this.isLastPage = false;  
-        }
-            }
-        });
-
+        this.getListStudent();
+        this.getCountStudent();
     }
-
-    // @wire(getCountStudent,{lastName: '$lastName', isCheck: '$isCheck',idClass: '$value',startDay: '$startDay', endDay:'$endDay'})getCountStudent({error,data}){
-    //    this.countStudent = data;
-    // }
 
     handleChangeClass(event) {
         this.value = event.detail.value;
@@ -170,43 +90,10 @@ export default class LwcSearchStudent extends LightningElement {
     }
 
     handleSearch(event) {
-        getListStudent({lastName: this.lastName, isCheck: this.isCheck, idClass:this.value, startDay: this.startDay, endDay:this.endDay, limitRecord:this.LIMIT_RECORD, currentPage:this.currentPage})
-        .then(result =>{
-            this.listStudent = result;
-            this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
-            });
-            // console.log(JSON.stringify(this.listStudent));
-        })
-        .catch(err=>{
-            this.listStudent= null;
-        });
-
-        getCountStudent({lastName: this.lastName, idClass: this.value, startDay: this.startDay, endDay: this.endDay})
-        .then(result =>{
-            this.currentPage = 1;
-            this.countStudent = result;
-            if(this.countStudent !== 0){
-                this.flagPagination = true;
-                this.totalPage= Math.ceil(this.countStudent / this.LIMIT_RECORD);
-                        if(this.currentPage == 1){
-            this.isFirstPage = true;
-            this.isPreviousPage = true;
-        }else{
-            this.isFirstPage = false;
-            this.isPreviousPage = false; 
-        }
-        if(this.currentPage == this.totalPage){
-            this.isNextPage = true;
-            this.isLastPage = true;
-        }else{
-            this.isNextPage = false;
-            this.isLastPage = false;  
-        }
-            }else{
-                this.flagPagination = false;
-            }
-        });
+        this.flagPagination = false;
+        this.currentPage = 1;
+        this.getListStudent();
+        this.getCountStudent();
     }
 
     handleRowAction(event) {
@@ -258,94 +145,58 @@ export default class LwcSearchStudent extends LightningElement {
     selectedRowHandler(event){
         const selectedRows = event.detail.selectedRows; 
         for ( let i = 0; i < selectedRows.length; i++ ){             
-            if ( !this.selectedListId.includes(selectedRows[i].Id) )
-                this.selectedListId =[...this.selectedListId, selectedRows[i].Id];
+            if ( !this.selectedListId.includes(selectedRows[i].Id)){
+                this.selectedListId = [...this.selectedListId, selectedRows[i].Id];
+            }
        }
-    //    console.log('@@:::NEW DATA:::'+JSON.stringify(this.selectedListId));
     }
 
     getFirstPage(){
         this.currentPage = 1;
         console.log(this.currentPage);
-                if(this.currentPage == 1){
-            this.isFirstPage = true;
-            this.isPreviousPage = true;
-        }else{
-            this.isFirstPage = false;
-            this.isPreviousPage = false; 
-        }
-        if(this.currentPage == this.totalPage){
-            this.isNextPage = true;
-            this.isLastPage = true;
-        }else{
-            this.isNextPage = false;
-            this.isLastPage = false;  
-        }
-        getListStudent({lastName: this.lastName, isCheck: this.isCheck, idClass:this.value, startDay: this.startDay, endDay:this.endDay, limitRecord:this.LIMIT_RECORD, currentPage:this.currentPage})
-        .then(result =>{
-            this.listStudent = result;
-            this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
-            });
-            // console.log(JSON.stringify(this.listStudent));
-        })
-        .catch(err=>{
-            this.listStudent= null;
-        });
+        this.updatePagination();
+        this.getListStudent();
     }
 
     getPreviousPage(){
         this.currentPage = this.currentPage - 1;
         console.log(this.currentPage);
-                if(this.currentPage == 1){
-            this.isFirstPage = true;
-            this.isPreviousPage = true;
-        }else{
-            this.isFirstPage = false;
-            this.isPreviousPage = false; 
-        }
-        if(this.currentPage == this.totalPage){
-            this.isNextPage = true;
-            this.isLastPage = true;
-        }else{
-            this.isNextPage = false;
-            this.isLastPage = false;  
-        }
-        getListStudent({lastName: this.lastName, isCheck: this.isCheck, idClass:this.value, startDay: this.startDay, endDay:this.endDay, limitRecord:this.LIMIT_RECORD, currentPage:this.currentPage})
-        .then(result =>{
-            this.listStudent = result;
-            this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
-            });
-            // console.log(JSON.stringify(this.listStudent));
-        })
-        .catch(err=>{
-            this.listStudent= null;
-        });
+        this.updatePagination();
+        this.getListStudent();
     }
 
     getNextPage(){
         this.currentPage = this.currentPage + 1;
         console.log(this.currentPage);
-                if(this.currentPage == 1){
-            this.isFirstPage = true;
-            this.isPreviousPage = true;
-        }else{
-            this.isFirstPage = false;
-            this.isPreviousPage = false; 
-        }
-        if(this.currentPage == this.totalPage){
-            this.isNextPage = true;
-            this.isLastPage = true;
-        }else{
-            this.isNextPage = false;
-            this.isLastPage = false;  
-        }
+        this.updatePagination();
+        this.getListStudent();
+    }
+
+    getLastPage(){
+        this.currentPage = this.totalPage ;
+        console.log(this.currentPage);
+        this.updatePagination();
+        this.getListStudent();
+        
+    }
+    
+    renderedCallback(){ 
+        if(this.isCssLoaded) return ;
+        this.isCssLoaded = true ;
+        loadStyle(this, COLORS).then(() => {
+            console.log("Loaded Successfully") ;
+        }).catch(error=>{ 
+            console.error("Error in loading the colors "+ error) ;
+        })
+    }
+
+    getListStudent = function(){
         getListStudent({lastName: this.lastName, isCheck: this.isCheck, idClass:this.value, startDay: this.startDay, endDay:this.endDay, limitRecord:this.LIMIT_RECORD, currentPage:this.currentPage})
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
+                let show = item.DiemTB__c < 5 ? "datatable-orange":"";
+                return (item.GioiTinh__c == true ? {...item, "showClass":show, GioiTinh__c: 'Nam'} : {...item, "showClass":show, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -353,11 +204,20 @@ export default class LwcSearchStudent extends LightningElement {
             this.listStudent= null;
         });
     }
+    getCountStudent = function(){
+        getCountStudent({lastName: this.lastName, idClass: this.value, startDay: this.startDay, endDay: this.endDay})
+        .then(result =>{
+            this.countStudent = result;
+            if(this.countStudent !== 0){
+                this.flagPagination = true;
+                this.totalPage = Math.ceil(this.countStudent / this.LIMIT_RECORD);
+                this.updatePagination();
+            }
+        });
+    }
 
-    getLastPage(){
-        this.currentPage = this.totalPage ;
-        console.log(this.currentPage);
-                if(this.currentPage == 1){
+    updatePagination = function(){
+        if(this.currentPage == 1){
             this.isFirstPage = true;
             this.isPreviousPage = true;
         }else{
@@ -371,16 +231,5 @@ export default class LwcSearchStudent extends LightningElement {
             this.isNextPage = false;
             this.isLastPage = false;  
         }
-        getListStudent({lastName: this.lastName, isCheck: this.isCheck, idClass:this.value, startDay: this.startDay, endDay:this.endDay, limitRecord:this.LIMIT_RECORD, currentPage:this.currentPage})
-        .then(result =>{
-            this.listStudent = result;
-            this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
-            });
-            // console.log(JSON.stringify(this.listStudent));
-        })
-        .catch(err=>{
-            this.listStudent= null;
-        });
-    }  
+    }
 }
