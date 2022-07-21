@@ -30,7 +30,8 @@ public with sharing class SearchComController {
 */ 
     @AuraEnabled
     public static void deleteAllStudent(List<String> listDelete){
-        List<HocSinh__c> students = [SELECT Id FROM HocSinh__c WHERE Id IN:listDelete];
+        
+        List<HocSinh__c> students = [SELECT Id FROM HocSinh__c WHERE Id IN: listDelete];
         delete students;
     }
 
