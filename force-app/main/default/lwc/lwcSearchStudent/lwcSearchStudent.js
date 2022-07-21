@@ -112,7 +112,7 @@ export default class LwcSearchStudent extends LightningElement {
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
                 let showClass = item.DiemTB__c < 5 ? "slds-color__background_gray-7":"";
-                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, "showClass":showClass, GioiTinh__c: 'Nam'} : {...item, "showClass":showClass, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -174,7 +174,7 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -285,7 +285,7 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -315,7 +315,7 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -345,7 +345,7 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
@@ -375,7 +375,7 @@ export default class LwcSearchStudent extends LightningElement {
         .then(result =>{
             this.listStudent = result;
             this.listStudent = this.listStudent.map(item => {
-                return (item.GioiTinh__c == true ? {...item, showClass: showClass, GioiTinh__c: 'Nam'} : {...item, showClass: showClass, GioiTinh__c: 'Nữ'})
+                return (item.GioiTinh__c == true ? {...item, GioiTinh__c: 'Nam'} : {...item, GioiTinh__c: 'Nữ'})
             });
             // console.log(JSON.stringify(this.listStudent));
         })
