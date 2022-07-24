@@ -1,6 +1,12 @@
-import { LightningElement,api } from 'lwc';
+// paginator.js
+import { LightningElement } from 'lwc';
 
 export default class ChildComponnet extends LightningElement {
-    @api firstname;
-    @api lastname;
+    previousHandler() {
+        this.dispatchEvent(new CustomEvent('previous'));
+    }
+
+    nextHandler() {
+        this.dispatchEvent(new CustomEvent('next'));
+    }
 }

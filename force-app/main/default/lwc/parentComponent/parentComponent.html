@@ -1,3 +1,9 @@
+<!-- eventSimple.html -->
 <template>
- <c-child-componnet lastname={lastName} firstname={firstName}></c-child-componnet>
+    <lightning-card title="EventSimple" icon-name="custom:custom9">
+        <div class="slds-m-around_medium">
+            <p class="slds-m-vertical_medium content">Page {page}</p>
+            <c-child-componnet onprevious={previousHandler} onnext={nextHandler}></c-child-componnet>
+        </div>
+    </lightning-card>
 </template>

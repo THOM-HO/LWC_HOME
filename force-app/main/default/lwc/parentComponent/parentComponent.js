@@ -1,6 +1,16 @@
-import { LightningElement, api } from 'lwc';
+// eventSimple.js
+import { LightningElement } from 'lwc';
 
 export default class ParentComponent extends LightningElement {
-    @api firstName = 'Hồ';
-    @api lastName = 'Thơm';
+    page = 1;
+
+    previousHandler() {
+        if (this.page > 1) {
+            this.page = this.page - 1;
+        }
+    }
+
+    nextHandler() {
+        this.page = this.page + 1;
+    }
 }

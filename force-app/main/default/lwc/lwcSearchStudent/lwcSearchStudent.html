@@ -1,4 +1,5 @@
 <template>
+     <!-- Section 1: Vùng điều kiện search -->
     <lightning-card>
         <lightning-layout>
             <lightning-layout-item padding="around-small">
@@ -29,16 +30,18 @@
         </lightning-layout>
         <lightning-layout>
             <lightning-layout-item padding="around-small">
-                <lightning-button label="Tìm kiếm"  onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
+                <lightning-button label="Tìm kiếm"  onclick={handleSearch}  class="slds-size_4-of-10" icon-name="utility:search"></lightning-button>
             </lightning-layout-item>
             <lightning-layout-item padding="around-small">
-                <lightning-button label="Thêm mới"  onclick={handleAddStudent} class="slds-m-left_x-small"></lightning-button>
+                <lightning-button label="Thêm mới"  onclick={handleAddStudent}  class="slds-size_4-of-10" icon-name="utility:new"></lightning-button>
             </lightning-layout-item>
             <lightning-layout-item padding="around-small">
-                <lightning-button label="Xóa tất cả"  onclick={handleDeleteAll} class="slds-m-left_x-small"></lightning-button>
+                <lightning-button label="Xóa tất cả"  onclick={handleDeleteAll}  class="slds-size_4-of-10" icon-name="utility:delete"></lightning-button>
             </lightning-layout-item>
         </lightning-layout>
     </lightning-card>
+
+<!-- Section 2: Hiển thị kết quả tìm kiếm và phân trang-->
    <div  class="slds-m-top_small">
         <lightning-card> 
             <div class="slds-p-bottom_small slds-text-align_right slds-m-right_small">Số lượng {countStudent} </div>
@@ -50,27 +53,26 @@
                 onrowselection={selectedRowHandler}></lightning-datatable>
             <lightning-layout if:true = {flagPagination} style="margin-top: 15px;">
                 <lightning-layout-item>
-                    <lightning-button label="Trang đầu" title="Non-primary action" onclick={getFirstPage} class="slds-m-left_x-small" disabled={isFirstPage}></lightning-button>
+                    <lightning-button label="Trang đầu" onclick={getFirstPage} class="slds-m-left_x-small" disabled={isFirstPage}></lightning-button>
                 </lightning-layout-item>
                 <lightning-layout-item>
-                    <lightning-button  title="Non-primary action" onclick={getPreviousPage} class="slds-m-left_x-small" icon-name="utility:chevronleft" disabled={isPreviousPage}></lightning-button>
+                    <lightning-button  onclick={getPreviousPage} class="slds-m-left_x-small" icon-name="utility:chevronleft" disabled={isPreviousPage}></lightning-button>
                 </lightning-layout-item>
                 <lightning-layout-item>
-                    <!-- <template for:each={listPage} for:item="item"> -->
-                        <lightning-button label={currentPage} title="Non-primary action"  class="slds-m-left_x-small"></lightning-button>
-                    <!-- </template> -->
+                        <lightning-button label={currentPage}  class="slds-m-left_x-small"></lightning-button>
                 </lightning-layout-item>
                 <lightning-layout-item>
-                    <lightning-button title="Non-primary action" onclick={getNextPage} class="slds-m-left_x-small" icon-name="utility:chevronright" disabled={isNextPage}></lightning-button>
+                    <lightning-button onclick={getNextPage} class="slds-m-left_x-small" icon-name="utility:chevronright" disabled={isNextPage}></lightning-button>
                 </lightning-layout-item>
                 <lightning-layout-item>
-                    <lightning-button label="Trang cuối" title="Non-primary action" onclick={getLastPage} class="slds-m-left_x-small" disabled={isLastPage}></lightning-button>
+                    <lightning-button label="Trang cuối" onclick={getLastPage} class="slds-m-left_x-small" disabled={isLastPage}></lightning-button>
                 </lightning-layout-item>
             </lightning-layout>
         </lightning-card>
     </div>
+      <!-- Section 3: Modal -->
         <c-lwc-modal-view-student record-id={recordId} ></c-lwc-modal-view-student> 
-        <c-lwc-modal-update-student record-id={recordId} ></c-lwc-modal-update-student>
-        <c-lwc-modal-create-student></c-lwc-modal-create-student>
-        <c-lwc-modal-delete-student list-student-delete={selectedListId}></c-lwc-modal-delete-student>
+        <c-lwc-modal-update-student record-id={recordId} onresetdatatable={handleSearch}></c-lwc-modal-update-student>
+        <c-lwc-modal-create-student onresetdatatable={handleSearch}></c-lwc-modal-create-student>
+        <c-lwc-modal-delete-student list-student-delete={selectedListId} onresetdatatable={handleSearch}></c-lwc-modal-delete-student>
 </template>

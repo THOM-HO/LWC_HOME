@@ -21,7 +21,7 @@ public static List<Lop__c> getListClass(){
 * @created: 2022/07/12 Ho Thi Thom
 * @modified:    
 */  
-@AuraEnabled(cacheable=true)
+@AuraEnabled
     public static List<HocSinh__c> getListStudent(String lastName,Boolean isCheck,String idClass,String startDay,String endDay,Integer limitRecord, Integer currentPage){
         try{
             String queryStudent = 'SELECT Id, MaHocSinh__c, HoHocSinh__c, TenHocSinh__c, NgaySinh__c, GioiTinh__c, Diem1__c, Diem2__c,Diem3__c, DiemTB__c,TinhTrang__c FROM  HocSinh__c';
@@ -54,7 +54,7 @@ public static List<Lop__c> getListClass(){
 * @created: 2022/07/12 Ho Thi Thom
 * @modified:    
 */ 
-@AuraEnabled(cacheable = true)
+@AuraEnabled
 public static String createStringQuery(String queryString, String lastName, String classId, String startBirthday, String endBirthday){ 
     try {
         if (String.isNotBlank(lastName.trim())) {
@@ -85,7 +85,7 @@ public static String createStringQuery(String queryString, String lastName, Stri
 * @created: 2022/07/12 Ho Thi Thom
 * @modified:    
 */ 
-@AuraEnabled(cacheable = true)
+@AuraEnabled
 public static Integer getCountStudent(String lastName, String idClass,String startDay,String endDay){
     try{
 
@@ -98,11 +98,19 @@ public static Integer getCountStudent(String lastName, String idClass,String sta
     }
 }
 
+/** 
+* Tên hàm :deleteAllStudent
+* Chức năng của hàm :xóa danh sách học sinh được chọn
+* @param listDelete: list ds học sinh được chọn
+* @return 
+* @created: 2022/07/12 Ho Thi Thom
+* @modified:    
+*/ 
 @AuraEnabled
     public static void deleteAllStudent(List<String> listDelete){
         try{
             List<HocSinh__c> students = [SELECT Id FROM HocSinh__c WHERE Id IN: listDelete];
-            System.debug(students);
+            delete students;
         }catch( Exception ex){
             throw new AuraHandledException(ex.getMessage());
         }
